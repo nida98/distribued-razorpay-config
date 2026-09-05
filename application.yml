@@ -10,8 +10,8 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
   datasource:
-    username: nidafathima
-    password: Ni2025da#
+    username: anuj
+    password: password
     driver-class-name: org.postgresql.Driver
   data:
     redis:
@@ -28,7 +28,7 @@ spring:
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
-        spring.json.trusted.packages: "com.codingshuttle.razorpay.*"
+        spring.json.trusted.packages: "com.nida.razorpay.*"
 
 eureka:
   client:
@@ -42,7 +42,16 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,info
+        include: health,info,prometheus
+  tracing:
+    sampling:
+      probability: 1.0
+  zipkin:
+    tracing:
+      endpoint: http://localhost:9411/api/v2/spans
+  metrics:
+    tags:
+      application: ${spring.application.name}
 
 logging:
   level:
