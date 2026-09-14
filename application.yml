@@ -30,7 +30,7 @@ spring:
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
-        spring.json.trusted.packages: "com.nida.razorpay.*"
+        spring.json.trusted.packages: "com.codingshuttle.razorpay.*"
 
 eureka:
   client:
@@ -55,10 +55,23 @@ management:
     tags:
       application: ${spring.application.name}
 
+feign:
+  httpclient:
+    hc5:
+      enabled: true
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+
 logging:
   level:
     org.apache.kafka.clients: WARN
     org.apache.kafka.common: WARN
+    zipkin2.reporter: DEBUG
+    org.springframework.boot.zipkin: DEBUG
+    io.micrometer.tracing: DEBUG
 
 app:
   kafka:
@@ -67,7 +80,6 @@ app:
       order: orders.events
       refund: refund.events
       settlement: settlement.events
-
 
 ---
 
@@ -84,6 +96,10 @@ spring:
   cloud:
     discovery:
       enabled: false
+  task:
+    scheduling:
+      pool:
+        size: 4
 
 eureka:
   client:
